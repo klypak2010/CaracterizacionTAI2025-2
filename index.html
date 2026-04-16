@@ -1,0 +1,175 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1.5rem 0;max-width:720px;margin:auto}
+.header{margin-bottom:1.5rem}
+.header h1{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.header p{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.tabs{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab-btn{padding:8px 18px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.tab-btn.active{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
+.tab-btn.concepts-btn.active{background:var(--color-background-success);color:var(--color-text-success)}
+.screen{display:none}.screen.active{display:block}
+.ex-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.ex-title{font-size:14px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem}
+.ex-body{font-size:15px;color:var(--color-text-primary);line-height:1.6;margin-bottom:1rem}
+table.data-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:1rem}
+table.data-tbl th{background:var(--color-background-secondary);padding:6px 10px;text-align:center;border:0.5px solid var(--color-border-tertiary);font-weight:500;font-size:12px}
+table.data-tbl td{padding:6px 10px;text-align:center;border:0.5px solid var(--color-border-tertiary)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.choice-btn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:pointer;padding:8px;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.choice-btn:hover{border-color:var(--color-border-primary)}
+.choice-btn.correct{border-color:#1D9E75;background:var(--color-background-success)}
+.choice-btn.wrong{border-color:#D85A30;background:var(--color-background-danger)}
+.choice-label{font-size:12px;font-weight:500;color:var(--color-text-secondary)}
+.feedback{font-size:13px;padding:10px 14px;border-radius:var(--border-radius-md);margin-bottom:.75rem;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--color-background-success);color:var(--color-text-success)}
+.feedback.fail{background:var(--color-background-danger);color:var(--color-text-danger)}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem}
+.nav-btn{padding:8px 20px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+.progress{font-size:12px;color:var(--color-text-secondary)}
+.score-badge{font-size:12px;font-weight:500;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:4px 12px;color:var(--color-text-secondary)}
+.concept-section{margin-bottom:1.25rem}
+.concept-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:.4rem}
+.concept-body{font-size:14px;color:var(--color-text-secondary);line-height:1.65}
+.tip-box{background:var(--color-background-warning);border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;color:var(--color-text-warning);margin-top:.75rem}
+svg.mini{display:block}
+</style>
+<div class="wrap">
+  <div class="header">
+    <h1>Lectura e interpretación de tablas y gráficas</h1>
+    <p>Preparación Saber Pro — Razonamiento cuantitativo</p>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" onclick="showTab('ejercicios')">Ejercicios (5)</button>
+    <button class="tab-btn concepts-btn" onclick="showTab('Estrategias de solución')">Estrategias de solución</button>
+  </div>
+
+  <div class="screen active" id="screen-ejercicios">
+    <div class="ex-card" id="ex-card"></div>
+  </div>
+
+  <div class="screen" id="screen-conceptos">
+    <div class="ex-card">
+      <div class="concept-section">
+        <div class="concept-title">1. Leer con cuidado las etiquetas de los ejes</div>
+        <div class="concept-body">Antes de elegir la gráfica, identifica qué variable va en el eje X y qué variable va en el eje Y. Muchas preguntas Saber Pro presentan la tabla con una variable, pero el eje pide la <em>variable complementaria</em>. Si el eje dice "porcentaje de imagen" y la tabla dice "porcentaje de texto", debes convertir antes de graficar.</div>
+      </div>
+      <div class="concept-section">
+        <div class="concept-title">2. Relaciones complementarias (parte-todo)</div>
+        <div class="concept-body">Cuando dos categorías suman una constante (100%, 1, un total fijo), son complementarias. Si A + B = 100 entonces B = 100 − A. Al convertir todos los valores, obtienes los pares (x, y) correctos para graficar.</div>
+      </div>
+      <div class="concept-section">
+        <div class="concept-title">3. Construir la tabla de pares ordenados</div>
+        <div class="concept-body">Una vez identificadas las variables correctas, ordena los pares (x, y) de menor a mayor en x. Esto te permite ver el patrón: ¿sube, baja, sube cada vez más rápido, sube cada vez más lento?</div>
+      </div>
+      <div class="concept-section">
+        <div class="concept-title">4. Identificar el tipo de relación</div>
+        <div class="concept-body">
+          <strong>Lineal creciente:</strong> los incrementos en y son iguales para incrementos iguales en x.<br>
+          <strong>Lineal decreciente:</strong> igual, pero y baja.<br>
+          <strong>No lineal cóncava (creciente desacelerada):</strong> y sube, pero cada vez menos.<br>
+          <strong>No lineal convexa (creciente acelerada):</strong> y sube cada vez más rápido.
+        </div>
+      </div>
+      <div class="concept-section">
+        <div class="concept-title">5. Verificar valores extremos</div>
+        <div class="concept-body">Comprueba el punto inicial (x mínimo) y el punto final (x máximo) en la gráfica. Si el intercepto o el valor final no coincide con tus datos, esa opción se descarta de inmediato.</div>
+      </div>
+      <div class="tip-box">Estrategia rápida en el examen: convierte la variable → ordena los pares → verifica el punto inicial → identifica si es creciente o decreciente → identifica si es lineal o curva. Con esos 4 pasos eliminas 3 de las 4 opciones.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const EX=[
+{id:1,titulo:"Ejercicio 1 — Ventas de café según tipo de empaque",enunciado:"Un barista registró 5 ventas de café especial. Los porcentajes de empaque rígido y flexible suman 100%. Analiza la relación entre el porcentaje de empaque flexible y el precio por kilo.",headers:["No. venta","% empaque rígido","Precio/kg ($)"],rows:[["V-01","80%","$18.000"],["V-02","20%","$42.000"],["V-03","60%","$24.000"],["V-04","0%","$50.000"],["V-05","40%","$32.000"]],nota:"El eje X pide <strong>% empaque flexible</strong>, no rígido.",pares:[["% flex","Precio"],["0%","$18.000"],["40%","$24.000"],["60%","$32.000"],["80%","$42.000"],["100%","$50.000"]],correcta:0,explicacion:"Al convertir: flexible = 100 − rígido. Los pares ordenados muestran una relación lineal creciente: a mayor % de empaque flexible, mayor precio por kilo.",graficas:["A","B","C","D"],tiposGraf:["lineal-crec","lineal-dec","curva-crec","curva-dec"]},
+{id:2,titulo:"Ejercicio 2 — Consumo eléctrico en planta industrial",enunciado:"Una planta industrial midió el consumo de energía en 5 turnos. El porcentaje de maquinaria pesada y maquinaria ligera siempre suma 100%. La tabla muestra el % de maquinaria ligera y el consumo total en kWh.",headers:["Turno","% maq. ligera","Consumo (kWh)"],rows:[["T1","10%","9.500"],["T2","50%","5.500"],["T3","30%","7.500"],["T4","90%","1.500"],["T5","70%","3.500"]],nota:"El eje X pide <strong>% maquinaria pesada</strong>.",pares:[["% pesada","kWh"],["10%","1.500"],["30%","3.500"],["50%","5.500"],["70%","7.500"],["90%","9.500"]],correcta:0,explicacion:"% pesada = 100 − % ligera. Los pares muestran que a mayor % de maquinaria pesada, mayor consumo: relación lineal creciente.",graficas:["A","B","C","D"],tiposGraf:["lineal-crec","lineal-dec","curva-crec","curva-dec"]},
+{id:3,titulo:"Ejercicio 3 — Tiempo de entrega según trayecto",enunciado:"Una empresa de mensajería registró 5 entregas. El % de trayecto propio y el % de trayecto tercerizado siempre suman 100%. Se analiza la relación entre el % de trayecto tercerizado y el tiempo de entrega en horas.",headers:["Entrega","% trayecto propio","Tiempo (h)"],rows:[["E1","100%","2"],["E2","40%","8"],["E3","60%","6"],["E4","0%","10"],["E5","80%","4"]],nota:"El eje X pide <strong>% trayecto tercerizado</strong>.",pares:[["% tercerizado","Horas"],["0%","2"],["20%","4"],["40%","6"],["60%","8"],["100%","10"]],correcta:0,explicacion:"% tercerizado = 100 − % propio. A mayor % tercerizado, mayor tiempo de entrega: relación lineal creciente.",graficas:["A","B","C","D"],tiposGraf:["lineal-crec","lineal-dec","curva-crec","curva-dec"]},
+{id:4,titulo:"Ejercicio 4 — Calidad del aire según vehículos eléctricos",enunciado:"En 5 zonas urbanas se midió el índice de calidad del aire (ICA, mayor = mejor) y el % de vehículos eléctricos. El % de vehículos eléctricos y de combustión siempre suma 100%. La tabla registra el % de vehículos de combustión.",headers:["Zona","% combustión","ICA"],rows:[["Z1","90%","30"],["Z2","30%","80"],["Z3","60%","55"],["Z4","10%","95"],["Z5","50%","65"]],nota:"El eje X pide <strong>% vehículos eléctricos</strong>.",pares:[["% eléctricos","ICA"],["10%","30"],["40%","55"],["50%","65"],["70%","80"],["90%","95"]],correcta:0,explicacion:"% eléctricos = 100 − % combustión. A mayor % de vehículos eléctricos, mejor ICA: relación lineal creciente.",graficas:["A","B","C","D"],tiposGraf:["lineal-crec","lineal-dec","curva-crec","curva-dec"]},
+{id:5,titulo:"Ejercicio 5 — Rendimiento académico y tiempo libre",enunciado:"Un colegio técnico registró el desempeño de 5 grupos. El % de tiempo dedicado a estudio y a ocio suman 100%. La tabla muestra el % de tiempo de estudio y el promedio académico del grupo (escala 0–10).",headers:["Grupo","% estudio","Promedio"],rows:[["G1","20%","4.0"],["G2","80%","8.5"],["G3","40%","5.5"],["G4","100%","9.5"],["G5","60%","7.0"]],nota:"El eje X pide <strong>% tiempo de ocio</strong>.",pares:[["% ocio","Promedio"],["0%","9.5"],["20%","8.5"],["40%","7.0"],["60%","5.5"],["80%","4.0"]],correcta:1,explicacion:"% ocio = 100 − % estudio. A mayor % de ocio, menor promedio: relación lineal DECRECIENTE. La gráfica correcta baja de izquierda a derecha.",graficas:["A","B","C","D"],tiposGraf:["lineal-crec","lineal-dec","curva-crec","curva-dec"]}
+];
+
+let cur=0,score=0,answered=[];
+for(let i=0;i<EX.length;i++) answered.push(false);
+
+function miniSVG(tipo,w,h){
+  const W=w||130,H=h||70,pad=10;
+  let path="";
+  if(tipo==="lineal-crec") path=`M${pad},${H-pad} L${W-pad},${pad}`;
+  else if(tipo==="lineal-dec") path=`M${pad},${pad} L${W-pad},${H-pad}`;
+  else if(tipo==="curva-crec") path=`M${pad},${H-pad} Q${W/2},${H-pad} ${W-pad},${pad}`;
+  else if(tipo==="curva-dec") path=`M${pad},${pad} Q${W/2},${pad} ${W-pad},${H-pad}`;
+  return `<svg class="mini" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><line x1="${pad}" y1="0" x2="${pad}" y2="${H-pad}" stroke="var(--color-border-primary)" stroke-width="1"/><line x1="${pad}" y1="${H-pad}" x2="${W}" y2="${H-pad}" stroke="var(--color-border-primary)" stroke-width="1"/><path d="${path}" fill="none" stroke="var(--color-text-primary)" stroke-width="2"/></svg>`;
+}
+
+function renderEx(){
+  const e=EX[cur];
+  let html=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
+    <div class="ex-title">${e.titulo}</div>
+    <span class="score-badge">Puntaje: ${score}/${EX.length}</span>
+  </div>
+  <div class="ex-body">${e.enunciado}</div>
+  <table class="data-tbl"><thead><tr>${e.headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+  <tbody>${e.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>
+  <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.75rem;padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)">${e.nota} — ¿Cuál de las siguientes gráficas representa mejor la relación?</div>
+  <div class="choices" id="choices">${e.graficas.map((g,i)=>`<button class="choice-btn" id="opt-${i}" onclick="answer(${i})">${miniSVG(e.tiposGraf[i])}<span class="choice-label">Opción ${g}</span></button>`).join("")}</div>
+  <div class="feedback" id="fb"></div>`;
+
+  if(answered[cur]){
+    html+=`<div style="font-size:12px;color:var(--color-text-tertiary);margin-bottom:.25rem">Pares ordenados (variable correcta):</div>
+    <table class="data-tbl" style="margin-bottom:.75rem"><thead><tr>${e.pares[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+    <tbody>${e.pares.slice(1).map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  }
+
+  html+=`<div class="nav-row">
+    <button class="nav-btn" onclick="prev()" ${cur===0?"disabled":""}>← Anterior</button>
+    <span class="progress">${cur+1} / ${EX.length}</span>
+    <button class="nav-btn" onclick="next()" ${cur===EX.length-1?"disabled":""}>Siguiente →</button>
+  </div>`;
+
+  document.getElementById("ex-card").innerHTML=html;
+
+  if(answered[cur]){
+    for(let i=0;i<EX[cur].graficas.length;i++){
+      const btn=document.getElementById("opt-"+i);
+      if(btn){btn.disabled=true;if(i===EX[cur].correcta) btn.classList.add("correct");}
+    }
+    const fb=document.getElementById("fb");
+    fb.textContent=EX[cur].explicacion;
+    fb.className="feedback ok show";
+  }
+}
+
+function answer(idx){
+  if(answered[cur]) return;
+  answered[cur]=true;
+  const e=EX[cur];
+  for(let i=0;i<e.graficas.length;i++) document.getElementById("opt-"+i).disabled=true;
+  const btn=document.getElementById("opt-"+idx);
+  const fb=document.getElementById("fb");
+  if(idx===e.correcta){btn.classList.add("correct");score++;fb.className="feedback ok show";fb.textContent="¡Correcto! "+e.explicacion;}
+  else{btn.classList.add("wrong");document.getElementById("opt-"+e.correcta).classList.add("correct");fb.className="feedback fail show";fb.textContent="Incorrecto. "+e.explicacion;}
+  document.querySelector(".score-badge").textContent=`Puntaje: ${score}/${EX.length}`;
+  const parsHTML=`<div style="font-size:12px;color:var(--color-text-tertiary);margin:.75rem 0 .25rem">Pares ordenados (variable correcta):</div>
+    <table class="data-tbl" style="margin-bottom:.75rem"><thead><tr>${e.pares[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+    <tbody>${e.pares.slice(1).map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  fb.insertAdjacentHTML("afterend",parsHTML);
+}
+
+function prev(){if(cur>0){cur--;renderEx();}}
+function next(){if(cur<EX.length-1){cur++;renderEx();}}
+
+function showTab(t){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("screen-"+t).classList.add("active");
+  document.querySelector(`.tab-btn[onclick="showTab('${t}')"]`).classList.add("active");
+}
+
+renderEx();
+</script>
